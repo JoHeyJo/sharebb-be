@@ -52,63 +52,63 @@ jwt = JWTManager(app)
 def index():
   return "hello"
 
-# @app.post('/signup')
-# def signup():
-#     """
-#     Create new user, add to DB and return token.
+@app.post('/signup')
+def signup():
+    """
+    Create new user, add to DB and return token.
 
-#     Return error message if the there already is a user with that username.
-#     """
-#     username = request.json["username"]
-#     first_name = request.json["firstName"]
-#     last_name = request.json["lastName"]
-#     password = request.json["password"]
-#     email = request.json["email"]
-#     image = request.json.get("image") or None
-#     print('in backend signup')
-#     try:
-#         token = User.signup(
-#             username=username,
-#             first_name=first_name,
-#             last_name=last_name,
-#             password=password,
-#             email=email,
-#             image_url=image
-#         )
-#         db.session.commit()
-#         return jsonify({"token": token})
+    Return error message if the there already is a user with that username.
+    """
+    username = request.json["username"]
+    first_name = request.json["firstName"]
+    last_name = request.json["lastName"]
+    password = request.json["password"]
+    email = request.json["email"]
+    image = request.json.get("image") or None
+    print('in backend signup')
+    try:
+        token = User.signup(
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            password=password,
+            email=email,
+            image_url=image
+        )
+        db.session.commit()
+        return jsonify({"token": token})
 
-#     except IntegrityError as e:
-#         return jsonify({"error": str(e)})
-
-
-# @app.post('/login')
-# def login():
-#     """Return token upon authentication of user login."""
-
-#     token = User.authenticate(
-#         request.json["username"], request.json["password"])
-
-#     if token:
-#         return jsonify({"token": token})
-
-#     return jsonify({"error": "Invalid login credentials."})
+    except IntegrityError as e:
+        return jsonify({"error": str(e)})
 
 
-# @app.get('/<username>')
-# @jwt_required()
-# def get_user(username):
-#     """Return user info. Requires authentication."""
+@app.post('/login')
+def login():
+    """Return token upon authentication of user login."""
 
-#     JWTusername = get_jwt_identity()
+    token = User.authenticate(
+        request.json["username"], request.json["password"])
 
-#     user = User.query.get_or_404(username)
+    if token:
+        return jsonify({"token": token})
 
-#     if JWTusername != username:
-#         return jsonify({"error": "Unauthorized access."})
+    return jsonify({"error": "Invalid login credentials."})
 
-#     serialized = user.serialize()
-#     return jsonify(user=serialized)
+
+@app.get('/<username>')
+@jwt_required()
+def get_user(username):
+    """Return user info. Requires authentication."""
+
+    JWTusername = get_jwt_identity()
+
+    user = User.query.get_or_404(username)
+
+    if JWTusername != username:
+        return jsonify({"error": "Unauthorized access."})
+
+    serialized = user.serialize()
+    return jsonify(user=serialized)
 
 
 # ##############################################################################
@@ -146,106 +146,106 @@ def post_listings():
         return jsonify({"error": f"Missing {str(e)}"})
 
 
-# @app.post('/listings/<int:id>/img')
-# @jwt_required()
-# def upload_image(id):
-#     """
-#     Post image and returns listing. Requires authentication.
+@app.post('/listings/<int:id>/img')
+@jwt_required()
+def upload_image(id):
+    """
+    Post image and returns listing. Requires authentication.
 
-#     Accepts file: image_url
-#     """
+    Accepts file: image_url
+    """
 
-#     print('inside listing post<<<<<<<<')
-#     username = get_jwt_identity()
-#     user = User.query.get_or_404(username)
-#     listing = Listing.query.get_or_404(id)
+    print('inside listing post<<<<<<<<')
+    username = get_jwt_identity()
+    user = User.query.get_or_404(username)
+    listing = Listing.query.get_or_404(id)
 
-#     if not user:
-#         return jsonify({"error": "Access unauthorized."})
+    if not user:
+        return jsonify({"error": "Access unauthorized."})
 
-#     file = request.files['File']
-#     if file:
-#         file.filename = secure_filename(file.filename)
-#         output = send_to_s3(file, app.config["S3_LOCATION"])
-#         listing.image_url = output
-#         db.session.commit()
-#         response = jsonify({"success": "image uploaded"})
-#         # response.headers.add('Access-Control-Allow-Origin', '*')
-#         return response
+    file = request.files['File']
+    if file:
+        file.filename = secure_filename(file.filename)
+        output = send_to_s3(file, app.config["S3_LOCATION"])
+        listing.image_url = output
+        db.session.commit()
+        response = jsonify({"success": "image uploaded"})
+        # response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
-# @app.get('/users/listings')
-# @jwt_required()
-# def get_listings_by_user():
-#     """ Get all listings by user. Must be logged in. """
+@app.get('/users/listings')
+@jwt_required()
+def get_listings_by_user():
+    """ Get all listings by user. Must be logged in. """
 
-#     username = get_jwt_identity()
-#     user = User.query.get_or_404(username)
+    username = get_jwt_identity()
+    user = User.query.get_or_404(username)
 
-#     listings = user.listings
+    listings = user.listings
 
-#     serialized = [listing.serialize() for listing in listings]
-#     return jsonify(listing=serialized)
+    serialized = [listing.serialize() for listing in listings]
+    return jsonify(listing=serialized)
 
-# @app.get('/listings')
-# def get_listings():
-#     """ Get all listings. No authentication required. """
+@app.get('/listings')
+def get_listings():
+    """ Get all listings. No authentication required. """
 
-#     search_term = request.args.get('listing')
+    search_term = request.args.get('listing')
 
-#     if search_term:
-#         listings = Listing.query.filter_by(name=search_term)
-#     else:
-#         listings = Listing.query.all()
+    if search_term:
+        listings = Listing.query.filter_by(name=search_term)
+    else:
+        listings = Listing.query.all()
 
-#     print(listings)
-#     serialized = [listing.serialize() for listing in listings]
-#     return jsonify(listing=serialized)
-
-
+    print(listings)
+    serialized = [listing.serialize() for listing in listings]
+    return jsonify(listing=serialized)
 
 
-# @app.get('/listings/<int:id>')
-# def get_listing(id):
-#     """ Get all listing. No authentication required. """
 
-#     listing = Listing.query.get_or_404(id)
-#     serialized = listing.serialize()
-#     return jsonify(listing=serialized)
 
-# ##############################################################################
-# # Messages
-# # POST /messages/new -- accepts {message,  recipient_id}
-# #  backend provide message_id, timestamp, from_id , recipient_id
-# @app.post('/messages')
-# @jwt_required()
-# def post_message():
-#     """ Post new message to another user.
+@app.get('/listings/<int:id>')
+def get_listing(id):
+    """ Get all listing. No authentication required. """
 
-#     Accepts json {message, toUsername} """
-#     username = get_jwt_identity()
-#     user = User.query.get(username)
+    listing = Listing.query.get_or_404(id)
+    serialized = listing.serialize()
+    return jsonify(listing=serialized)
 
-#     if not user:
-#         return jsonify({"error": "Access unauthorized."})
+##############################################################################
+# Messages
+# POST /messages/new -- accepts {message,  recipient_id}
+#  backend provide message_id, timestamp, from_id , recipient_id
+@app.post('/messages')
+@jwt_required()
+def post_message():
+    """ Post new message to another user.
 
-#     try:
-#         message = Message.new(
-#             message=request.json["message"],
-#             recipient=request.json["recipient"]
-#         )
-#         db.session.commit()
+    Accepts json {message, toUsername} """
+    username = get_jwt_identity()
+    user = User.query.get(username)
 
-#         return jsonify(message=message.serialize())
-#     except KeyError as e:
-#         print("keyerror>>>>>>", e)
-#         return jsonify({"error": f"Missing {str(e)}"})
+    if not user:
+        return jsonify({"error": "Access unauthorized."})
 
-#     # TODO:
-#     # username = get_jwt_identity()
-#     # user = User.query.get_or_404(username)
-#     # text = request.json["text"]
-#     # to_username = request.json["to_username"]
-#     # message = Message(text=text)
-#     # db.session.add(message)
+    try:
+        message = Message.new(
+            message=request.json["message"],
+            recipient=request.json["recipient"]
+        )
+        db.session.commit()
 
-#     # user.messages_sent.append()
+        return jsonify(message=message.serialize())
+    except KeyError as e:
+        print("keyerror>>>>>>", e)
+        return jsonify({"error": f"Missing {str(e)}"})
+
+    # TODO:
+    # username = get_jwt_identity()
+    # user = User.query.get_or_404(username)
+    # text = request.json["text"]
+    # to_username = request.json["to_username"]
+    # message = Message(text=text)
+    # db.session.add(message)
+
+    # user.messages_sent.append()
