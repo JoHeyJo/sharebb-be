@@ -34,9 +34,9 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
 toolbar = DebugToolbarExtension(app)
 jwt = JWTManager(app)
 
-# connect_db(app)
-# db.drop_all()
-# db.create_all()
+connect_db(app)
+db.drop_all()
+db.create_all()
 
 
 # print('>>>>>>>>>>>>>>>ACCESS_KEY',app.config[ACCESS_KEY])
