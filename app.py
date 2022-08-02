@@ -1,49 +1,49 @@
 import os
 
 from flask import Flask, jsonify, request
-from flask_debugtoolbar import DebugToolbarExtension
-from sqlalchemy.exc import IntegrityError
-from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
-from aws import send_to_s3
-from models import db, connect_db, User, Listing, Message
-from dotenv import load_dotenv
-from werkzeug.utils import secure_filename
-from flask_cors import CORS
+# from flask_debugtoolbar import DebugToolbarExtension
+# from sqlalchemy.exc import IntegrityError
+# from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+# from aws import send_to_s3
+# from models import db, connect_db, User, Listing, Message
+# from dotenv import load_dotenv
+# from werkzeug.utils import secure_filename
+# from flask_cors import CORS
 
-load_dotenv()
+# load_dotenv()
 
-CURR_USER_KEY = "curr_user"
+# CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-port = int(os.environ.get('PORT', 33507))
-app.run(host=args.host, port=port, debug=True)
-CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = False
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
-app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-app.config["JWT_SECRET_KEY"] = os.environ['SECRET_KEY']
-app.config['S3_BUCKET'] = os.environ["BUCKET_NAME"]
-app.config['S3_LOCATION'] = 'http://{}.s3.amazonaws.com/'.format(
-    app.config['S3_BUCKET'])
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
-# toolbar = DebugToolbarExtension(app)
-jwt = JWTManager(app)
+# port = int(os.environ.get('PORT', 33507))
+# app.run(host=args.host, port=port, debug=True)
+# CORS(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = (
+#     os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
+# # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['SQLALCHEMY_ECHO'] = False
+# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+# app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+# app.config["JWT_SECRET_KEY"] = os.environ['SECRET_KEY']
+# app.config['S3_BUCKET'] = os.environ["BUCKET_NAME"]
+# app.config['S3_LOCATION'] = 'http://{}.s3.amazonaws.com/'.format(
+#     app.config['S3_BUCKET'])
+# app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
+# # toolbar = DebugToolbarExtension(app)
+# jwt = JWTManager(app)
 
-connect_db(app)
-# db.drop_all()
-db.create_all()
+# connect_db(app)
+# # db.drop_all()
+# db.create_all()
 
 
-print('>>>>>>>>>>>>>>>ACCESS_KEY',app.config[ACCESS_KEY])
-print('>>>>>>>>>>>>>>>BUCKET_NAME',app.config[BUCKET_NAME])
-print('>>>>>>>>>>>>>>>DATABASE_URL',app.config[DATABASE_URL])
-print('>>>>>>>>>>>>>>>KEY_ID',app.config[KEY_ID])
-print('>>>>>>>>>>>>>>>SECRET_KEY',app.config[SECRET_KEY])
+# print('>>>>>>>>>>>>>>>ACCESS_KEY',app.config[ACCESS_KEY])
+# print('>>>>>>>>>>>>>>>BUCKET_NAME',app.config[BUCKET_NAME])
+# print('>>>>>>>>>>>>>>>DATABASE_URL',app.config[DATABASE_URL])
+# print('>>>>>>>>>>>>>>>KEY_ID',app.config[KEY_ID])
+# print('>>>>>>>>>>>>>>>SECRET_KEY',app.config[SECRET_KEY])
 
 ##############################################################################
 # User signup/login/logout
