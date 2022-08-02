@@ -1,7 +1,6 @@
 import os
 
-from flask import Flask, jsonify, request, flash
-import flask
+from flask import Flask, jsonify, request
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
@@ -17,9 +16,8 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 CORS(app)
-database_url = os.environ['DATABASE_URL']
-database_url = database_url.replace('postgres://', 'postgresql://')
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
