@@ -120,36 +120,36 @@ class User(db.Model):
         db.session.add(user)
         return token
 
-    # @classmethod
-    # def authenticate(cls, username, password):
-    #     """Find user with `username` and `password`.
+    @classmethod
+    def authenticate(cls, username, password):
+        """Find user with `username` and `password`.
 
-    #     It searches for a user whose password hash matches this password
-    #     and, if it finds such a user, returns that user object.
+        It searches for a user whose password hash matches this password
+        and, if it finds such a user, returns that user object.
 
-    #     If can't find matching user (or if password is wrong), returns False.
-    #     """
+        If can't find matching user (or if password is wrong), returns False.
+        """
 
-    #     user = cls.query.filter_by(username=username).first()
+        user = cls.query.filter_by(username=username).first()
 
-    #     if user:
-    #         is_auth = bcrypt.check_password_hash(user.password, password)
-    #         if is_auth:
-    #             token = create_access_token(identity=username)
-    #             return token
+        if user:
+            is_auth = bcrypt.check_password_hash(user.password, password)
+            if is_auth:
+                token = create_access_token(identity=username)
+                return token
 
-    #     return False
+        return False
 
-    # def serialize(self):
-    #     """Serialize to dictionary."""
+    def serialize(self):
+        """Serialize to dictionary."""
 
-    #     return {
-    #         "username":self.username,
-    #         "firstName":self.first_name,
-    #         "lastName":self.last_name,
-    #         "email":self.email,
-    #         "imageUrl":self.image_url,
-    #     }
+        return {
+            "username":self.username,
+            "firstName":self.first_name,
+            "lastName":self.last_name,
+            "email":self.email,
+            "imageUrl":self.image_url,
+        }
 
 
 class Message(db.Model):
