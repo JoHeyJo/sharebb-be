@@ -3,7 +3,7 @@ import os
 from flask import Flask, jsonify, request
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
+# from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from aws import send_to_s3
 from models import db, connect_db, User, Listing, Message
 from dotenv import load_dotenv
