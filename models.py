@@ -115,10 +115,10 @@ class User(db.Model):
             image_url=image_url,
         )
 
-        # token = create_access_token(identity=username)
+        token = create_access_token(identity=username)
 
         db.session.add(user)
-        # return token
+        return token
 
     # @classmethod
     # def authenticate(cls, username, password):
