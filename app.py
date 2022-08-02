@@ -10,29 +10,29 @@ from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 
-# load_dotenv()
+load_dotenv()
 
-# CURR_USER_KEY = "curr_user"
+CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
 # port = int(os.environ.get('PORT', 33507))
 # app.run(host=args.host, port=port, debug=True)
-# CORS(app)
-# app.config['SQLALCHEMY_DATABASE_URI'] = (
-#     os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SQLALCHEMY_ECHO'] = False
-# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
-# app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-# app.config["JWT_SECRET_KEY"] = os.environ['SECRET_KEY']
-# app.config['S3_BUCKET'] = os.environ["BUCKET_NAME"]
-# app.config['S3_LOCATION'] = 'http://{}.s3.amazonaws.com/'.format(
-#     app.config['S3_BUCKET'])
-# app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
-# toolbar = DebugToolbarExtension(app)
-# jwt = JWTManager(app)
+CORS(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO'] = False
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+app.config["JWT_SECRET_KEY"] = os.environ['SECRET_KEY']
+app.config['S3_BUCKET'] = os.environ["BUCKET_NAME"]
+app.config['S3_LOCATION'] = 'http://{}.s3.amazonaws.com/'.format(
+    app.config['S3_BUCKET'])
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
+toolbar = DebugToolbarExtension(app)
+jwt = JWTManager(app)
 
 # connect_db(app)
 # db.drop_all()
