@@ -34,7 +34,11 @@ jwt = JWTManager(app)
 connect_db(app)
 # db.drop_all()
 db.create_all()
-
+print('>>>>>>>>>>>>>>>ACCESS_KEY',ACCESS_KEY)
+print('>>>>>>>>>>>>>>>BUCKET_NAME',BUCKET_NAME)
+print('>>>>>>>>>>>>>>>DATABASE_URL',DATABASE_URL)
+print('>>>>>>>>>>>>>>>KEY_ID',KEY_ID)
+print('>>>>>>>>>>>>>>>SECRET_KEY',SECRET_KEY)
 
 ##############################################################################
 # User signup/login/logout
