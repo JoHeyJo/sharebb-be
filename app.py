@@ -15,6 +15,9 @@ load_dotenv()
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
+
+port = int(os.environ.get('PORT', 33507))
+app.run(host=args.host, port=port, debug=True)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
@@ -34,11 +37,13 @@ jwt = JWTManager(app)
 connect_db(app)
 # db.drop_all()
 db.create_all()
-print('>>>>>>>>>>>>>>>ACCESS_KEY',ACCESS_KEY)
-print('>>>>>>>>>>>>>>>BUCKET_NAME',BUCKET_NAME)
-print('>>>>>>>>>>>>>>>DATABASE_URL',DATABASE_URL)
-print('>>>>>>>>>>>>>>>KEY_ID',KEY_ID)
-print('>>>>>>>>>>>>>>>SECRET_KEY',SECRET_KEY)
+
+
+print('>>>>>>>>>>>>>>>ACCESS_KEY',app.config[ACCESS_KEY])
+print('>>>>>>>>>>>>>>>BUCKET_NAME',app.config[BUCKET_NAME])
+print('>>>>>>>>>>>>>>>DATABASE_URL',app.config[DATABASE_URL])
+print('>>>>>>>>>>>>>>>KEY_ID',app.config[KEY_ID])
+print('>>>>>>>>>>>>>>>SECRET_KEY',app.config[SECRET_KEY])
 
 ##############################################################################
 # User signup/login/logout
