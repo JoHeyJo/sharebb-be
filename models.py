@@ -6,7 +6,7 @@ from email import message
 
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
-# from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token
 from sqlalchemy import false
 
 DEFAULT_IMAGE_URL = "https://st.depositphotos.com/1835047/1677/i/600/depositphotos_16770723-stock-photo-tree-house.jpg"
