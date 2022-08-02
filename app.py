@@ -114,33 +114,33 @@ def index():
 # ##############################################################################
 # # Listings
 
-# @app.post('/listings')
-# # @jwt_required()
-# def post_listings():
-#     """
-#     Post listing and returns listing. Requires authentication.
+@app.post('/listings')
+# @jwt_required()
+def post_listings():
+    """
+    Post listing and returns listing. Requires authentication.
 
-#     Accepts json :{name, image_url, price, location, details, listing_type}
-#     """
-#     # username = get_jwt_identity()
-#     # user = User.query.get(username)
+    Accepts json :{name, image_url, price, location, details, listing_type}
+    """
+    # username = get_jwt_identity()
+    # user = User.query.get(username)
 
-#     # if not user:
-#     #     return jsonify({"error": "Access unauthorized."})
+    # if not user:
+    #     return jsonify({"error": "Access unauthorized."})
 
-#     # try:
-#     listing = Listing.new(
-#         name=request.json["name"],
-#         image_url=request.json.get("imageUrl") or None,
-#         price=request.json["price"],
-#         location=request.json["location"],
-#         details=request.json["details"],
-#         listing_type=request.json["listingType"]
-#         # host_username=username
-#         )
-#     # db.session.commit()
+    # try:
+    listing = Listing.new(
+        name=request.json["name"],
+        image_url=request.json.get("imageUrl") or None,
+        price=request.json["price"],
+        location=request.json["location"],
+        details=request.json["details"],
+        listing_type=request.json["listingType"]
+        # host_username=username
+        )
+    # db.session.commit()
 
-#     return jsonify(listing=listing.serialize())
+    return jsonify(listing=listing.serialize())
     # except KeyError as e:
     #     print("keyerror>>>>>>", e)
         # return jsonify({"error": f"Missing {str(e)}"})
