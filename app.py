@@ -32,7 +32,7 @@ CORS(app)
 #     app.config['S3_BUCKET'])
 # app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
 # toolbar = DebugToolbarExtension(app)
-jwt = JWTManager(app)
+# jwt = JWTManager(app)
 
 connect_db(app)
 # db.drop_all()
