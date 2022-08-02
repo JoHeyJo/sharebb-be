@@ -18,7 +18,7 @@ app = Flask(__name__)
 
 # port = int(os.environ.get('PORT', 33507))
 # app.run(host=args.host, port=port, debug=True)
-CORS(app)
+# CORS(app)
 # app.config['SQLALCHEMY_DATABASE_URI'] = (
 #     os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
