@@ -34,9 +34,9 @@ app = Flask(__name__)
 # toolbar = DebugToolbarExtension(app)
 # jwt = JWTManager(app)
 
-connect_db(app)
+# connect_db(app)
 # db.drop_all()
-db.create_all()
+# db.create_all()
 
 
 # print('>>>>>>>>>>>>>>>ACCESS_KEY',app.config[ACCESS_KEY])
