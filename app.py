@@ -38,9 +38,9 @@ connect_db(app)
 ##############################################################################
 # User signup/login/logout
 
-# @app.get("/")
-# def index():
-#   return "hello"
+@app.get("/")
+def index():
+  return "hello"
 
 @app.post('/signup')
 def signup():
