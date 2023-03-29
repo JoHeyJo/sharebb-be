@@ -78,11 +78,15 @@ def login():
 
     token = User.authenticate(
         request.json["username"], request.json["password"])
-
+    # try:
+    #     if token:
+    #         return jsonify({"token": token})
+    # except ValueError:
+    #     return jsonify({"error": "Invalid login credentials."}), 401
     if token:
         return jsonify({"token": token})
-
-    return jsonify({"error": "Invalid login credentials."})
+    else:
+        return jsonify({"error": "Invalid login credentials."}), 401
 
 
 @app.get('/<username>')
