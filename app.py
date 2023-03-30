@@ -71,7 +71,6 @@ def signup():
     except IntegrityError as e:
             pgerror = e.orig.diag.message_detail
             message = pgerror.split('DETAIL: ')[0].strip()
-            print("###############MESSAGE",message)
             return jsonify({"error": message}), 401
 
 
