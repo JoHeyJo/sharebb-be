@@ -69,7 +69,11 @@ def signup():
         return jsonify({"token": token})
 
     except IntegrityError as e:
-        return jsonify({"error": str(e)})
+            pgerror = e.orig.diag.message_detail
+            message = pgerror.split('DETAIL: ')[0].strip()
+            print("###############MESSAGE",message)
+            return jsonify({"error": message}), 401
+
 
 
 @app.post('/login')
