@@ -1,14 +1,16 @@
 import os
 
 from flask import Flask, jsonify, request
-# from flask_debugtoolbar import DebugToolbarExtension
+from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from aws import send_to_s3
 from models import db, connect_db, User, Listing, Message
+from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 
+load_dotenv()
 
 CURR_USER_KEY = "curr_user"
 
@@ -17,7 +19,6 @@ app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
@@ -27,15 +28,9 @@ app.config['S3_BUCKET'] = os.environ["BUCKET_NAME"]
 app.config['S3_LOCATION'] = 'http://{}.s3.amazonaws.com/'.format(
     app.config['S3_BUCKET'])
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
-# toolbar = DebugToolbarExtension(app)
+toolbar = DebugToolbarExtension(app)
 jwt = JWTManager(app)
 
-if __name__ == '__main__':
-    # Create all database tables if they don't exist
-    with app.app_context():
-        db.create_all()
-
-    app.run()
 
 connect_db(app)
 
