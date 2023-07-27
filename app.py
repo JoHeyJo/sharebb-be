@@ -34,8 +34,6 @@ toolbar = DebugToolbarExtension(app)
 jwt = JWTManager(app)
 
 
-db.create_all()
-
 connect_db(app)
 
 ##############################################################################
