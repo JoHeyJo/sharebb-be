@@ -6,11 +6,9 @@ from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from aws import send_to_s3
 from models import db, connect_db, User, Listing, Message
-# from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
 from flask_cors import CORS
 
-# load_dotenv()
 
 CURR_USER_KEY = "curr_user"
 
