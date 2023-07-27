@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, jsonify, request
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 from aws import send_to_s3
@@ -29,7 +29,7 @@ app.config['S3_BUCKET'] = os.environ["BUCKET_NAME"]
 app.config['S3_LOCATION'] = 'http://{}.s3.amazonaws.com/'.format(
     app.config['S3_BUCKET'])
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 jwt = JWTManager(app)
 
 
