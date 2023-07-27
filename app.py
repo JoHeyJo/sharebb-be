@@ -32,13 +32,8 @@ app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
 toolbar = DebugToolbarExtension(app)
 jwt = JWTManager(app)
 
-def create_tables():
-    with app.app_context():
-        db.create_all()
 
-if __name__ == '__main__':
-    create_tables()  # Create the database tables when the app starts
-    app.run()
+db.create_all()
 
 connect_db(app)
 
