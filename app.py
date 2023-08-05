@@ -8,7 +8,7 @@ from aws import send_to_s3
 from models import db, connect_db, User, Listing, Message
 from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 load_dotenv()
 
@@ -16,7 +16,7 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app) 
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ['DATABASE_URL'].replace("postgres://", "postgresql://"))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -81,16 +81,20 @@ def login():
 
     token = User.authenticate(
         request.json["username"], request.json["password"])
-    # try:
-    #     if token:
-    #         return jsonify({"token": token})
-    # except ValueError:
-    #     return jsonify({"error": "Invalid login credentials."}), 401
-    if token:
-        return jsonify({"token": token})
-    else:
+    try:
+        if token:
+            return jsonify({"token": token})
+        else:
+            return jsonify({"error": "Invalid login credentials."}), 401
+    except ValueError:
         return jsonify({"error": "Invalid login credentials."}), 401
+    # if token:
+    #     return jsonify({"token": token})
+    # else:
+    #     return jsonify({"error": "Invalid login credentials."}), 401
 
+
+############# FIX THIS ERROR HANDLING BELOW##############
 
 @app.get('/<username>')
 @jwt_required()
@@ -100,12 +104,13 @@ def get_user(username):
     JWTusername = get_jwt_identity()
 
     user = User.query.get_or_404(username)
+    try:
+        if JWTusername != username:
+            return jsonify({"error": "Unauthorized access."}),401
 
-    if JWTusername != username:
-        return jsonify({"error": "Unauthorized access."})
-
-    serialized = user.serialize()
-    return jsonify(user=serialized)
+    except LookupError as e:    
+        serialized = user.serialize()
+        return jsonify(user=serialized)
 
 
 # ##############################################################################
@@ -184,22 +189,22 @@ def get_listings_by_user():
     return jsonify(listing=serialized)
 
 @app.get('/listings')
+@cross_origin()
 def get_listings():
     """ Get all listings. No authentication required. """
+    try:
+        search_term = request.args.get('listing')
 
-    search_term = request.args.get('listing')
+        if search_term:
+            listings = Listing.query.filter_by(name=search_term)
+        else:
+            listings = Listing.query.all()
 
-    if search_term:
-        listings = Listing.query.filter_by(name=search_term)
-    else:
-        listings = Listing.query.all()
-
-    print(listings)
-    serialized = [listing.serialize() for listing in listings]
-    return jsonify(listing=serialized)
-
-
-
+        serialized = [listing.serialize() for listing in listings]
+        return jsonify(listing=serialized)
+    except Exception as e:
+        print("keyerror>>>>>>", e)
+        return jsonify({"error": f"Missing {str(e)}"})
 
 @app.get('/listings/<int:id>')
 def get_listing(id):
